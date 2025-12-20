@@ -1,16 +1,24 @@
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import datageneration.Data;
 import datageneration.DataBuilder;
 import datageneration.Field;
 import datageneration.JsScript;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class DataGeneratorApp extends JFrame {
+
     private final ArrayList<FieldRow> fieldRows = new ArrayList<>();
-    private final HashMap<String, FieldRow> fieldMap = new HashMap<>();
     private final JsScript jsScript = new JsScript();
 
     private final JPanel infoPanel = new JPanel();
@@ -46,7 +54,6 @@ public class DataGeneratorApp extends JFrame {
 
         for (Field field : Field.values()) {
             FieldRow row = new FieldRow(field);
-            fieldMap.put(field.getLabel(), row);
             fieldRows.add(row);
 
             row.addToPanel(dataRowsPanel);
@@ -69,6 +76,7 @@ public class DataGeneratorApp extends JFrame {
         generateData();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void generateData() {
         DataBuilder builder = new DataBuilder();
 

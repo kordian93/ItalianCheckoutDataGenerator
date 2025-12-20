@@ -1,13 +1,5 @@
 package datageneration;
 
-import com.github.javafaker.Faker;
-import datageneration.fields.BornInItaly;
-import datageneration.fields.City;
-import datageneration.fields.Country;
-import datageneration.fields.FiscalCodeCheck;
-import datageneration.fields.Gender;
-import datageneration.fields.Region;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.EnumMap;
@@ -15,10 +7,19 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.github.javafaker.Faker;
+
+import datageneration.fields.BornInItaly;
+import datageneration.fields.City;
+import datageneration.fields.Country;
 import static datageneration.fields.Country.ITALY;
+import datageneration.fields.FiscalCodeCheck;
+import datageneration.fields.Gender;
 import static datageneration.fields.Gender.MALE;
+import datageneration.fields.Region;
 
 public class DataBuilder {
+
     private final Map<Field, Object> fieldValues = new EnumMap<>(Field.class);
 
     private final Map<String, Integer> oddSumValues = new HashMap<>();
@@ -152,7 +153,11 @@ public class DataBuilder {
             setField(Field.COUNTRY, country);
         }
 
-        Faker faker = new Faker(new Locale(country.getValue().toLowerCase(), country.getValue()));
+        Locale locale = new Locale.Builder()
+                .setLanguage(country.getValue().toLowerCase())
+                .setRegion(country.getValue())
+                .build();
+        Faker faker = new Faker(locale);
 
         setFieldIfAbsent(Field.NAME, faker.name().firstName());
         setFieldIfAbsent(Field.SURNAME, faker.name().lastName());
@@ -263,19 +268,32 @@ public class DataBuilder {
         String birthDateCode = birthDate.substring(2, 4);
 
         birthDateCode += switch (birthDate.substring(5, 7)) {
-            case "01" -> "A";
-            case "02" -> "B";
-            case "03" -> "C";
-            case "04" -> "D";
-            case "05" -> "E";
-            case "06" -> "H";
-            case "07" -> "L";
-            case "08" -> "M";
-            case "09" -> "P";
-            case "10" -> "R";
-            case "11" -> "S";
-            case "12" -> "T";
-            default -> throw new IllegalStateException("Unexpected value: " + birthDate.substring(5, 7));
+            case "01" ->
+                "A";
+            case "02" ->
+                "B";
+            case "03" ->
+                "C";
+            case "04" ->
+                "D";
+            case "05" ->
+                "E";
+            case "06" ->
+                "H";
+            case "07" ->
+                "L";
+            case "08" ->
+                "M";
+            case "09" ->
+                "P";
+            case "10" ->
+                "R";
+            case "11" ->
+                "S";
+            case "12" ->
+                "T";
+            default ->
+                throw new IllegalStateException("Unexpected value: " + birthDate.substring(5, 7));
         };
 
         String day = birthDate.substring(8, 10);

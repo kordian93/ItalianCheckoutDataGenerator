@@ -1,14 +1,23 @@
-import datageneration.Field;
-import lombok.Getter;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import datageneration.Field;
+import lombok.Getter;
+
 @Getter
 public class FieldRow {
+
     private final JLabel label;
     private final JTextField generatedValueTextField;
     private final JCheckBox checkBox;
@@ -21,6 +30,7 @@ public class FieldRow {
 
     private final int HIGHLIGHT_DELAY = 500;
 
+    @SuppressWarnings("unchecked")
     public FieldRow(Field field) {
         this.field = field;
 
@@ -81,8 +91,8 @@ public class FieldRow {
         return enumClass == null
                 ? new String[]{}
                 : Arrays.stream(enumClass.getEnumConstants())
-                .map(Enum::name)
-                .toArray(String[]::new);
+                        .map(Enum::name)
+                        .toArray(String[]::new);
     }
 
     private void highlightField(JTextField field) {
@@ -93,4 +103,3 @@ public class FieldRow {
         timer.start();
     }
 }
-
