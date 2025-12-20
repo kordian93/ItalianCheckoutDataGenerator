@@ -25,3 +25,7 @@ replay_pid*
 
 target/
 .idea/
+.vscode/
+.DS_Store
+*.iml
+out/
