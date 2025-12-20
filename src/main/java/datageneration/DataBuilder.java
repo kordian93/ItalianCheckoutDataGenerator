@@ -200,15 +200,15 @@ public class DataBuilder {
     }
 
     private String generateValidFiscalCode() {
-        String generated = "";
+        StringBuilder generated = new StringBuilder();
 
-        generated += getSurnameCode();
-        generated += getFirstNameCode();
-        generated += getBirthDateAndGenderCode();
-        generated += getPlaceOfBirthCode();
-        generated += getControlCharacter(generated);
+        generated.append(getSurnameCode());
+        generated.append(getFirstNameCode());
+        generated.append(getBirthDateAndGenderCode());
+        generated.append(getPlaceOfBirthCode());
+        generated.append(getControlCharacter(generated.toString()));
 
-        return generated;
+        return generated.toString();
     }
 
     private String[] extractConsonantsAndVowels(String name) {
