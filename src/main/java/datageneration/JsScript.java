@@ -1,21 +1,24 @@
 package datageneration;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import datageneration.fields.BornInItaly;
 import datageneration.fields.Country;
 import datageneration.fields.FiscalCodeCheck;
 import datageneration.fields.Gender;
 import datageneration.fields.Region;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class JsScript {
+
     private static final String INPUT_SELECTOR = "div.billing-address-form input[name$=\"%s\"]";
     private static final String SELECT_SELECTOR = "div.billing-address-form select[name$=\"%s\"]";
-    private static final String UPDATE_FIELD = "inputElement = document.querySelector('%s');\n" +
-            "inputElement.value = '%s';\n" +
-            "event = new Event('change', { bubbles: true });\n" +
-            "inputElement.dispatchEvent(event);\n";
+    private static final String UPDATE_FIELD = """
+                                               inputElement = document.querySelector('%s');
+                                               inputElement.value = '%s';
+                                               event = new Event('change', { bubbles: true });
+                                               inputElement.dispatchEvent(event);
+                                               """;
     private static final String WAIT = "await new Promise(r => setTimeout(r, 1500));\n";
 
     private static final Map<Field, String> FIELD_SELECTORS = new LinkedHashMap<>();
@@ -47,12 +50,18 @@ public class JsScript {
             if (data.hasField(field)) {
                 Object fieldValue = data.getField(field);
                 String value = switch (field) {
-                    case COUNTRY -> ((Country) fieldValue).getValue();
-                    case REGION -> ((Region) fieldValue).getValue();
-                    case FISCAL_CODE_CHECK -> ((FiscalCodeCheck) fieldValue).getValue();
-                    case GENDER -> ((Gender) fieldValue).getValue();
-                    case BORN_IN_ITALY -> ((BornInItaly) fieldValue).getValue();
-                    default -> fieldValue.toString();
+                    case COUNTRY ->
+                        ((Country) fieldValue).getValue();
+                    case REGION ->
+                        ((Region) fieldValue).getValue();
+                    case FISCAL_CODE_CHECK ->
+                        ((FiscalCodeCheck) fieldValue).getValue();
+                    case GENDER ->
+                        ((Gender) fieldValue).getValue();
+                    case BORN_IN_ITALY ->
+                        ((BornInItaly) fieldValue).getValue();
+                    default ->
+                        fieldValue.toString();
                 };
 
                 value = escapeJsString(value);
